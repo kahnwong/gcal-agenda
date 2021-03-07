@@ -6,7 +6,7 @@
 - weather api docs: https://darksky.net/dev/docs
 
 ## features
-- auto refresh every 30 minutes
+- auto refresh every 30 minutes (you can change it later)
 - agenda list partitioned by day
 - weather forefast
 
@@ -21,9 +21,21 @@ export font_wesome_kit_id=
 export latitude=
 export longitude=
 ```
-4. `pip3 install -r requirements.txt`
+4. `pip3 install -r requirements.txt` (`Pipfile` is also available, and has the same modules set as `requirements.txt`)
 5. Run `python3 create_html.py` (will ask you to authenticate in browser on first run only)
-6. Put it somewhere your webserver can access and point a URL to it (it is a simple HTMl after all)
+6. Put it somewhere your webserver can access and point a URL to it (it is a simple HTML after all)
+
+## Docker
+Exposes to `localhost:8921`
+
+```
+docker-compose build
+docker-compose up -d
+docker exec -t gcal-agenda python3 create_html.py # init webpage creation
+
+# set up system crontab
+*/30 * * * * docker exec -t gcal-agenda python3 create_html.py
+```
 
 ## disable kindle screensaver
 https://wiki.mobileread.com/wiki/Kindle_Touch_Hacking

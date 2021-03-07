@@ -40,7 +40,7 @@ def header_extend():
     <style>
         html {
             width: 100%;
-            font-size: 14px;
+            font-size: 18px;
         }
 
         ul {
@@ -245,13 +245,15 @@ def header_extend():
 
 def header_today():
     from datetime import datetime
-    current_date = str(datetime.now().date())
+    current_date = datetime.now().date()
+    display_date = current_date.strftime('%b %d, %Y')
+
     s = """
                             <b>Today</b> {}
                         </div>
                     </div>
 
-    """.format(current_date)
+    """.format(display_date)
 
     return s
 

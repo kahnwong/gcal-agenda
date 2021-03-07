@@ -8,12 +8,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def get_events_list():
-    events = get_events()
-
-    return events
-
-
 def get_wather():
     url = 'https://api.darksky.net/forecast/{}/{},{}?units=auto&exclude=minutely,daily,alerts,currently,flags'\
             .format(os.environ['weather_api_key'],
@@ -61,27 +55,27 @@ def get_wather():
 def formatting(events):
     ###
     for i in events:
-        i['day_name'] = parse(i['start']).strftime('%A')
+        i['date'] = parse(i['start']).date()
         i['start'] = parse(i['start']).strftime('%H:%M')
         i['end'] = parse(i['end']).strftime('%H:%M')
 
     ###
     events_partition = {}
     for i in events:
-        day_name = i.pop('day_name')
+        date = i['date']
 
         # create day_name key
-        if not events_partition.get(day_name):
-            events_partition[day_name] = []
+        if not events_partition.get(date):
+            events_partition[date] = []            
 
-        events_partition[day_name].append(i)
+        events_partition[date].append(i)
     ###
 
     return events_partition
 
 
 def generate_html(events):
-    with open('agenda.html', 'w') as f:
+    with open('index.html', 'w') as f:
         f.write(header(os.environ['font_wesome_kit_id']))
         f.write('\n')
         f.write(header_extend())
@@ -89,32 +83,31 @@ def generate_html(events):
         f.write(header_today())
         f.write('\n')
 
-        ### comment out this block if you don't want to add weather
-        weathers = get_wather()
         f.write("""<div id="contact">""")
         f.write('\n')
+        # ### comment out this block if you don't want to add weather
+        # weathers = get_wather()
+        # for i in weathers:
+        #     f.write(weather(i))
+        #     f.write('\n')
 
-        for i in weathers:
-            f.write(weather(i))
-            f.write('\n')
-
-        f.write("""</div>""")
-        f.write('\n')
-        ###
+        # f.write("""</div>""")
+        # f.write('\n')
+        # ###
 
         f.write("""</header>""")
         f.write('\n')
 
-        for day_name in events:
-            print('processing {}'.format(day_name))
+        for date in events:
+            print('processing {}'.format(date))
 
-            f.write(section_day(day_name))
+            f.write(section_day(date.strftime('%A')))
             f.write('\n')
 
             f.write("""<div class="section-content">""")
             f.write('\n')
 
-            day_events = events[day_name]
+            day_events = events[date]
             for i in day_events:
                 f.write(event(i['start'], i['end'], i['summary']))
                 f.write('\n')
@@ -126,7 +119,7 @@ def generate_html(events):
 
 
 def main():
-    events = get_events_list()
+    events = get_events()
     events = formatting(events)
     generate_html(events)
 
