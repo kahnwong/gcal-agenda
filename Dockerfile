@@ -7,9 +7,7 @@ COPY ./Pipfile.lock ./Pipfile.lock
 RUN jq -r '.default | to_entries[] | .key + .value.version ' Pipfile.lock > requirements.txt
 RUN pip install -r requirements.txt
 
-COPY ./credentials.json ./credentials.json
-COPY ./*.py ./
-COPY ./token.pickle ./token.pickle
+COPY ./ ./
 
 EXPOSE 80
 CMD apachectl -D FOREGROUND
