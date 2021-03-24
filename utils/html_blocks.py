@@ -260,10 +260,7 @@ def header_today():
 
 def section_day(day_name):
     s = """
-            <section id="education">
-
-
-
+            <section id="day">
             <div class="section-title">
                 {}
             </div>
@@ -272,14 +269,23 @@ def section_day(day_name):
     return s
 
 
-def event(start, end, summary):
-    s = """
+def event(start, end, summary, next_event_in):
+    s = f"""
                 <div class="block">
                     <div class="block-title">
-                        <b>{} - {} </b> {}
-                    </div>
+                        <b>{start} - {end} </b> {summary}
+            """
 
+    if next_event_in:
+        s += f"""
+                <br>
+                <br>
+                <center>next event in {next_event_in} hours</center>
+            """
+
+    s += """
+                    </div>
                 </div>
-    """.format(start, end, summary)
+    """
 
     return s

@@ -10,6 +10,7 @@ google-auth-oauthlib = "*"
 python-dateutil = "*"
 python-dotenv = "*"
 requests = "*"
+pandas = "*"
 
 [dev-packages]
 
