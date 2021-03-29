@@ -16,15 +16,15 @@ def generate_html(events):
 
         f.write("""<div id="contact">""")
         f.write('\n')
-        # ### comment out this block if you don't want to add weather
-        # weathers = get_wather()
-        # for i in weathers:
-        #     f.write(weather(i))
-        #     f.write('\n')
+        ### comment out this block if you don't want to add weather
+        weathers = get_weather()
+        for i in weathers:
+            f.write(weather(i))
+            f.write('\n')
 
-        # f.write("""</div>""")
-        # f.write('\n')
-        # ###
+        f.write("""</div>""")
+        f.write('\n')
+        ###
 
         f.write("""</header>""")
         f.write('\n')
