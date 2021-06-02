@@ -126,7 +126,7 @@ def formatting(events):
         ## convert to json
         def parse_date(d):
             if 'date' in d:
-                d['date'] = datetime.fromtimestamp(1616630400000/1000).date()
+                d['date'] = datetime.fromtimestamp(d['date']/1000).date()
             return d
 
         d = json.loads(df.to_json(orient='records'), object_hook=parse_date)
