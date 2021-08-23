@@ -46,4 +46,4 @@ https://wiki.mobileread.com/wiki/Kindle_Touch_Hacking
 ```
 
 ## Screenshot
-![picture 1](images/e549d67ae291e1c886f319eaa39e08c86166e838c26349cc19c09951e358681c.png)  
+![picture 1](images/e549d67ae291e1c886f319eaa39e08c86166e838c26349cc19c09951e358681c.png)
