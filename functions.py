@@ -9,16 +9,18 @@ from dateutil.parser import parse
 
 from utils.cal_setup import get_calendar_service
 
+service = get_calendar_service()
 
-def get_events():
-    service = get_calendar_service()
+
+def get_events(calendarId="primary"):
+
     # Call the Calendar API
     now = datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
     print("Getting List of 10 events")
     events_result = (
         service.events()
         .list(
-            calendarId="primary",
+            calendarId=calendarId,
             timeMin=now,
             maxResults=10,
             singleEvents=True,
@@ -42,7 +44,7 @@ def get_events():
             d = {}
             d["start"] = start
             d["end"] = end
-            d["summary"] = event["summary"]
+            d["summary"] = event.get("summary")
             output.append(d)
 
         return output
@@ -92,7 +94,13 @@ def get_weather():
     return weathers
 
 
-def formatting(events):
+def formatting(events, events_todo):
+    ###
+    events.extend(events_todo)
+    # events.extend(events_conferences)
+
+    events = sorted(events, key=lambda d: d["start"])
+
     ###
     for i in events:
         i["date"] = parse(i["start"]).date()
@@ -144,3 +152,10 @@ def formatting(events):
         events_partition[key] = d
 
     return events_partition
+
+
+def add_event_prefix(events, prefix):
+    for i in events:
+        i["summary"] = f"{prefix} {i['summary']}"
+
+    return events

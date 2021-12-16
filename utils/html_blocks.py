@@ -281,10 +281,14 @@ def section_day(day_name):
 
 
 def event(start, end, summary, next_event_in):
+    start_end = f"{start} - {end}"
+    if start_end == "00:00 - 00:00":
+        start_end = "|"
+
     s = f"""
                 <div class="block">
                     <div class="block-title">
-                        <b>{start} - {end} </b> {summary}
+                        <b>{start_end} </b> {summary}
             """
 
     if next_event_in:

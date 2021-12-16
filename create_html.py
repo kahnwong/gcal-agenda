@@ -2,15 +2,14 @@ import os
 
 from dotenv import load_dotenv
 
+from functions import add_event_prefix
 from functions import formatting
 from functions import get_events
-from functions import get_weather
 from utils.html_blocks import event
 from utils.html_blocks import header
 from utils.html_blocks import header_extend
 from utils.html_blocks import header_today
 from utils.html_blocks import section_day
-from utils.html_blocks import weather
 
 load_dotenv()
 
@@ -26,15 +25,15 @@ def generate_html(events):
 
         f.write("""<div id="contact">""")
         f.write("\n")
-        ### comment out this block if you don't want to add weather
-        weathers = get_weather()
-        for i in weathers:
-            f.write(weather(i))
-            f.write("\n")
+        # ### comment out this block if you don't want to add weather
+        # weathers = get_wather()
+        # for i in weathers:
+        #     f.write(weather(i))
+        #     f.write('\n')
 
-        f.write("""</div>""")
-        f.write("\n")
-        ###
+        # f.write("""</div>""")
+        # f.write('\n')
+        # ###
 
         f.write("""</header>""")
         f.write("\n")
@@ -60,8 +59,23 @@ def generate_html(events):
 
 
 def main():
-    events = get_events()
-    events = formatting(events)
+    ################
+    # events
+    ################
+    events = get_events("primary")
+
+    events_todo = get_events("c_qkcd4g7q4o325okcii4s1jpmg8@group.calendar.google.com")
+    events_todo = add_event_prefix(events_todo, "[TODO]")
+
+    # events_conferences = get_events(
+    #     "c_9l25epokrvvi100kc4gj10oln8@group.calendar.google.com"
+    # )
+    # events_conferences = add_event_prefix(events_conferences, "[CONF]")
+
+    ################
+    # wrangling
+    ################
+    events = formatting(events, events_todo)
     generate_html(events)
 
 
